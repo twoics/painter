@@ -1,0 +1,7 @@
+#ifndef PAINTER_FRAME_H
+#define PAINTER_FRAME_H
+
+
+
+#endif //PAINTER_FRAME_H
+
