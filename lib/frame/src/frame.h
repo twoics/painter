@@ -16,19 +16,19 @@ public:
         this->brightness_val = brightness;
     }
 
-    int red() {
+    int red() const {
         return this->red_val;
     }
 
-    int green() {
+    int green() const {
         return this->green_val;
     }
 
-    int blue() {
+    int blue() const {
         return this->blue_val;
     }
 
-    int brightness() {
+    int brightness() const {
         return this->brightness_val;
     }
 };
