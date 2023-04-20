@@ -1,17 +1,6 @@
 #include "frame.h"
 #include "FastLED.h"
 
-class Pixel {
-public:
-    CRGB color;
-    int brightness;
-};
-
-class IFrame {
-public:
-    virtual Pixel get(int width, int height) = 0;
-};
-
 class Frame : public IFrame {
 private:
     size_t shape;
