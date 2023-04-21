@@ -1,39 +1,10 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-package "Data Receiver"
-{
-    interface IDataReceiver{
-        +dataIterator(): IFrameIterator?
-    }
-
-    class DataReceiver{
-        -factory: IFrameIteratorFactory
-        + DataReceiver(frameBuilder: IFrameIteratorFactory)
-        +dataIterator(): IFrameIterator?
-    }
-}
-
-
 package "Frame "
 {
-    interface IFrameIterator{
-        +next(): IFrame
-        +delay(): int
-    }
-
     interface IFrame {
         +get(int width, int height): Pixel
-    }
-
-    interface IFrameIteratorFactory{
-        +build(data: JSON)): IFrameIterator
-    }
-
-    class FrameIterator{
-        -List[Frame]
-        +next(): IFrame
-        +delay(): int
     }
 
     class Frame{
@@ -41,36 +12,72 @@ package "Frame "
         +get(int width, int height): Pixel
     }
 
-    class FrameIteratorFactory{
-        +build(data: JSON)): IFrameIterator
-    }
-
-    struct Pixel{
-        +color: CRGB
-        +brightness: int
+    class Pixel{
+        +red(): int
+        +green(): int
+        +blue(): int
+        +brightness(): int
     }
 }
 
-package "Matrix"
+package "Iterator"
 {
+    interface IConnection{
+        +data(): JSON?
+    }
+
+    interface IDataIterator{
+        +next(): IFrame
+        +delay(): int
+    }
+
+    class DataIterator{
+        -frames: List[Frame]
+        -count: size_t
+        -current: size_t
+        +DataIterator(connection: IConnection)
+        +next(): IFrame
+        +delay(): int
+        -json_to_frames(data:JSON): List[Frame]
+    }
+
+    class BluetoothConnection{
+        +data(): JSON?
+    }
+}
+
+
+
+package "Matrix "
+{
+    interface IMatrix{
+        +show(frame: IFrame)
+    }
+
     class Matrix{
         +show(frame: IFrame)
     }
 }
 
+package "Main" <<NODE>>
+{
+
+}
+
 '---REL---'
-IDataReceiver <|.. DataReceiver
-DataReceiver o--left  IFrameIteratorFactory
-
-IFrameIteratorFactory <|.. FrameIteratorFactory
-FrameIteratorFactory -left..>  IFrameIterator: create
-
-FrameIterator *--right IFrame
-
-IFrameIterator <|.. FrameIterator
 
 IFrame <|.. Frame
-Frame *-- Pixel
+Frame o-- Pixel
 
-Matrix -left....> IFrame: use
+IMatrix -down..> IFrame: use
+IMatrix <|.. Matrix
+
+IDataIterator -left..> IFrame: create
+IConnection <|.. BluetoothConnection
+IDataIterator <|.. DataIterator
+DataIterator o--left IConnection
+
+"Main" <--[thickness=3]- IDataIterator
+"Main" <--[thickness=3]right IMatrix
+
 @enduml
