@@ -20,14 +20,11 @@ package "Frame "
     }
 }
 
-package "Iterator"
+package "Data"
 {
-    interface IConnection{
-        +data(): JSON?
-    }
 
     interface IDataIterator{
-        +next(): IFrame
+        +next(): IFrame?
         +delay(): int
     }
 
@@ -41,12 +38,20 @@ package "Iterator"
         -json_to_frames(data:JSON): List[Frame]
     }
 
-    class BluetoothConnection{
-        +data(): JSON?
-    }
 }
 
 
+package "Connection"
+{
+    interface IConnection{
+            +data(): JSON?
+    }
+
+    class BluetoothConnection{
+        +data(): JSON?
+    }
+
+}
 
 package "Matrix "
 {
