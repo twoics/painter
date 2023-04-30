@@ -1,6 +1,11 @@
 #include <Arduino.h>
+#include "matrix/Matrix.h"
+
+
 void setup() {
-// write your initialization code here
+    auto* matrix = new LedMatrix();
+    matrix->setColor(0, CRGB::Green);
+    LedMatrix::redraw();
 }
 
 void loop() {
