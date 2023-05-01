@@ -1,15 +1,29 @@
 #ifndef PAINTER_MATRIX_H
 #define PAINTER_MATRIX_H
 
-#include "../../.pio/libdeps/uno/FastLED/src/pixeltypes.h"
+#include "FastLED.h"
 
-class Matrix{
+#define LED_TYPE WS2812
+#define MATRIX_PIN 6
+#define N_ROW 16
+#define N_COL 16
+#define N_LEDS (N_COL * N_ROW)
+
+class LedMatrix {
+private:
+    CRGB leds[N_LEDS]{};
+
 public:
-    /// @return Pointer at matrix leds
-    virtual CRGB* getLeds() = 0;
+    LedMatrix();
 
-    /// Redraw leds on a matrix of LEDs
-    virtual void redraw() = 0;
+    void setColor(byte height, byte width, CRGB color);
+
+    static void redraw();
+
+    static void clear();
+
+private:
+    static byte calculateIndex(byte height, byte width);
 };
 
 #endif //PAINTER_MATRIX_H
