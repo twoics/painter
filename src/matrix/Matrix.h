@@ -5,7 +5,10 @@
 
 #define LED_TYPE WS2812
 #define MATRIX_PIN 6
-#define N_LEDS 256
+#define N_ROW 16
+#define N_COL 16
+#define N_LEDS (N_COL * N_ROW)
+#define INDEX_OUT_OF_RANGE (-1)
 
 class LedMatrix {
 private:
@@ -14,11 +17,14 @@ private:
 public:
     LedMatrix();
 
-    void setColor(size_t index, CRGB color);
+    void setColor(byte height, byte width, CRGB color);
 
     static void redraw();
 
     static void clear();
+
+private:
+    static int calculateIndex(byte height, byte width);
 };
 
 #endif //PAINTER_MATRIX_H
