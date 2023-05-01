@@ -5,6 +5,8 @@ LedMatrix::LedMatrix() {
 }
 
 void LedMatrix::setColor(byte height, byte width, CRGB color) {
+//    TODO add validation
+
     byte index = calculateIndex(height, width);
     this->leds[index] = color;
 }
@@ -18,12 +20,7 @@ void LedMatrix::clear() {
     FastLED.show();
 }
 
-int LedMatrix::calculateIndex(byte height, byte width) {
-    if (height < 0 | height >= N_ROW |
-        width < 0 | width >= N_COL) {
-        return INDEX_OUT_OF_RANGE;
-    }
-
+byte LedMatrix::calculateIndex(byte height, byte width) {
     byte startRowIdx = N_COL * height;
 
     byte index = 0;
